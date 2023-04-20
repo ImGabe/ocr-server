@@ -15,7 +15,6 @@ func GetRouter() *chi.Mux {
 	r.Use(middleware.RealIP)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
-	r.Use(middleware.URLFormat)
 	r.Use(middleware.Timeout(60 * time.Second))
 
 	r.Use(render.SetContentType(render.ContentTypeJSON))
