@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
-	"regexp"
+	"strings"
 
 	"github.com/go-chi/render"
 	"github.com/imgabe/ocr-server/pkg/types"
@@ -82,7 +82,7 @@ func Base64(w http.ResponseWriter, r *http.Request) {
 		render.Render(w, r, types.ErrInvalidRequest(err))
 		return
 	}
-	body.Base64 = regexp.MustCompile("data:image\\/png;base64,").ReplaceAllString(body.Base64, "")
+	body.Base64 = strings.TrimPrefix(body.Base64, "data:image/png;base64,")
 	b, err := base64.StdEncoding.DecodeString(body.Base64)
 	if err != nil {
 		render.Render(w, r, types.ErrInvalidRequest(err))
