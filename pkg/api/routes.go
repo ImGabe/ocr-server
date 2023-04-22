@@ -19,7 +19,7 @@ func GetRouter() *chi.Mux {
 	r.Use(render.SetContentType(render.ContentTypeJSON))
 
 	r.Get("/", Index)
-	r.Post("/file", File)
+	r.With(CheckFileSize).Post("/file", File)
 	r.Post("/base64", Base64)
 
 	return r

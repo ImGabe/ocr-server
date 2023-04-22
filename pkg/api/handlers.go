@@ -14,19 +14,11 @@ import (
 	"github.com/otiai10/gosseract/v2"
 )
 
-const MAX_UPLOAD_SIZE = 1024 << 13 // 8 MB
-
 func Index(w http.ResponseWriter, r *http.Request) {
 	render.Render(w, r, types.NewResponse("ping"))
 }
 
 func File(w http.ResponseWriter, r *http.Request) {
-	r.Body = http.MaxBytesReader(w, r.Body, MAX_UPLOAD_SIZE)
-	if err := r.ParseMultipartForm(MAX_UPLOAD_SIZE); err != nil {
-		http.Error(w, "The uploaded file is too big. Please choose an file that's less than 1MB in size", http.StatusBadRequest)
-		return
-	}
-
 	file, _, err := r.FormFile("file")
 	if err != nil {
 		render.Render(w, r, types.ErrInvalidRequest(err))

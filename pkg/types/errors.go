@@ -56,6 +56,15 @@ func ErrNotFound(err error) render.Renderer {
 	}
 }
 
+func ErrRequestEntityTooLarge(err error) render.Renderer {
+	return &ErrResponse{
+		Err:            err,
+		HTTPStatusCode: http.StatusRequestEntityTooLarge,
+		StatusText:     "Request Entity Too Large.",
+		ErrorText:      err.Error(),
+	}
+}
+
 func ErrRender(err error) render.Renderer {
 	return &ErrResponse{
 		Err:            err,
